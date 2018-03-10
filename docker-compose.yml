@@ -1,0 +1,43 @@
+version: '3'
+services:
+  app:
+    build: ./app
+    container_name: app
+    depends_on:
+      - redis
+      - mysql
+    environment:
+      APIKEY: ${APIKEY}
+      MYSQL_HOST: "mysql"
+      MYSQL_PASSWORD: "root"
+      MYSQL_USER: "root"
+      MYSQL_DB: "entries"
+      REDIS_HOST: "redis"
+      REDIS_DB: "0"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/usr/src/app/
+  redis:
+    container_name: redis
+    environment:
+      REDIS_HOST: "redis"
+      REDIS_DB: "0"
+    image: redis:4.0.2
+    volumes:
+      - ./redis:/data
+  mysql:
+    command:
+        - --character-set-server=utf8mb4
+        - --collation-server=utf8mb4_unicode_ci
+        - --skip-character-set-client-handshake
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_HOST: "mysql"
+      MYSQL_PASSWORD: "password"
+      MYSQL_USER: "user"
+      MYSQL_DB: "entries"
+    image: mysql:5.7
+    volumes:
+      - "./docker:/docker-entrypoint-initdb.d"
