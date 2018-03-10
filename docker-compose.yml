@@ -2,7 +2,7 @@ version: '3'
 services:
   app:
     build: ./app
-    container_name: app
+    # container_name: app
     depends_on:
       - redis
       - mysql
@@ -16,10 +16,12 @@ services:
       REDIS_DB: "0"
     ports:
       - "5000:5000"
+    restart: always
+
     volumes:
       - ./app:/usr/src/app/
   redis:
-    container_name: redis
+    # container_name: redis
     environment:
       REDIS_HOST: "redis"
       REDIS_DB: "0"
@@ -31,7 +33,7 @@ services:
         - --character-set-server=utf8mb4
         - --collation-server=utf8mb4_unicode_ci
         - --skip-character-set-client-handshake
-    container_name: mysql
+    # container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_HOST: "mysql"

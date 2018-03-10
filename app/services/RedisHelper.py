@@ -10,6 +10,10 @@ class RedisHelper():
         self.r = redis.StrictRedis(host=REDIS_HOST, port=6379, db=REDIS_DB)
     def get(self,key):
         value = self.r.get(key)
-        return value == None and value or json.loads(value)
+        if value != None:
+             value = json.loads(value)
+        return value
     def set(self,key,value):
         self.r.set(key, json.dumps(value))
+    def scan(self,key):
+        return self.r.scan_iter('*')

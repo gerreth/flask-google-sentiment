@@ -1,3 +1,78 @@
 body {
+  background: rgb(252,252,252);
   font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+.red {
+  color: #BD3039;
+}
+
+.siteWrapper {
+  margin: 0 auto;
+  width: 800px;
+}
+
+.response {
+  background: rgb(255,255,255);
+  box-shadow: 1px 1px 3px 0 rgba(0,0,0,.05);
+  margin-top: 20px;
+}
+
+.responseHeader {
+  background-color: rgba(189,48,57,1);
+  color: white;
+  display: flex;
+  font-weight: 600;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.responseLabel {
+  width: 85%;
+}
+
+.responseScoreLabel {
+  text-align: right;
+  width: 5%;
+}
+
+
+.responseSentences {
+  padding: 20px;
+}
+
+.sentence {
+  padding: 10px 0;
+}
+
+.sentenceResults {
+  align-items: right;
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.sentenceSentiment {
+  /* display: none; */
+  height: 2px;
+  margin: 5px 0 0;
+  /* padding: 10px 0; */
+  width: 100%;
+}
+
+.sentenceSentiment span {
+  opacity: 0;
+}
+
+.sentenceContent {
+  width: 85%;
+}
+
+.sentencePolarity,.sentenceMagnitude,.sentenceScore {
+  font-weight: 600;
+  text-align: right;
+  width: 5%;
 }
