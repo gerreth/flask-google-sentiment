@@ -3,7 +3,10 @@ from flask import render_template
 from flask import request
 from controllers \
     import \
-        (IndexController)
+        (IndexController,
+        SentimentController,
+        EntityController,
+        AnalyzeController)
 
 app = Flask(__name__)
 
@@ -13,6 +16,18 @@ def index():
     c = IndexController()
     responses = c.index()
     return render_template('hello.html', responses=responses)
+
+@app.route('/sentiment', methods = ['GET'])
+def sentiment():
+    s = SentimentController()
+    responses = s.index()
+    return render_template('sentiment.html', responses=responses)
+
+@app.route('/analyze', methods = ['GET','POST'])
+def analyze():
+    s = AnalyzeController()
+    entities, types, sentiments = s.index()
+    return render_template('analyze.html', responses=sentiments, entities=entities, types=types, method=request.method)
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')

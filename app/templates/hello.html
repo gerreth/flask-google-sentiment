@@ -1,45 +1,47 @@
-<!doctype html>
-<title>Hello from Flask</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/style.css') }}">
-<link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet">
-{% if responses %}
-  <div class="siteWrapper">
-
-    <div class="responses">
-      {% for response in responses %}
-        <div class="response">
-          <div class="responseHeader">
-            <div class="responseLabel">Response: {{ response['documentSentiment']['score'] }}</div>
-            <div class="responseScoreLabel">P</div>
-            <div class="responseScoreLabel">M</div>
-            <div class="responseScoreLabel">S</div>
-          </div>
-          <div class="responseSentences">
-            {% for sentence in response['sentences'] %}
-              <div class="sentence">
-                <div class="sentenceResults">
-                  <div class="sentenceContent sentenceResult">
-                    <span>{{ sentence['text']['content'] }}</span>
-                  </div>
-                  <div class="sentencePolarity sentenceResult">
-                    <span>{{ sentence['sentiment']['polarity'] }}</span>
-                  </div>
-                  <div class="sentenceMagnitude sentenceResult">
-                    <span>{{ sentence['sentiment']['magnitude'] }}</span>
-                  </div>
-                  <div class="sentenceScore sentenceResult">
-                    <span>{{ sentence['sentiment']['score'] }}</span>
-                  </div>
-                </div>
-                <div class="sentenceSentiment sentenceResult" style="background-color: rgb({{ sentence['color']['r'] }},{{ sentence['color']['g'] }},{{ sentence['color']['b'] }}); width:{% if sentence['sentiment']['score'] > 0 %}{{ sentence['sentiment']['score']*100 }}{% else %}{{ -sentence['sentiment']['score']*100 }}{% endif %}%;"><span>.</span></div>
-              </div>
-            {% endfor %}
-          </div>
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/index.css') }}">
+{% endblock %}
+{% block content %}
+  {% if responses %}
+  <div class="responses">
+    {% for response in responses %}
+      <div class="response">
+        <div class="responseHeader">
+          <div class="responseLabel">Response: {{ response['documentSentiment']['score'] }}</div>
+          <div class="responseScoreLabel">P</div>
+          <div class="responseScoreLabel">M</div>
+          <div class="responseScoreLabel">S</div>
         </div>
-      {% endfor %}
+        <div class="responseSentences">
+          {% for sentence in response['sentences'] %}
+            <div class="sentence">
+              <div class="sentenceResults">
+                <div class="sentenceContent sentenceResult">
+                  <span>{{ sentence['text']['content'] }}</span>
+                </div>
+                <div class="sentencePolarity sentenceResult">
+                  <span>{{ sentence['sentiment']['polarity'] }}</span>
+                </div>
+                <div class="sentenceMagnitude sentenceResult">
+                  <span>{{ sentence['sentiment']['magnitude'] }}</span>
+                </div>
+                <div class="sentenceScore sentenceResult">
+                  <span>{{ sentence['sentiment']['score'] }}</span>
+                </div>
+              </div>
+              <div class="sentenceSentiment sentenceResult" style="background-color: rgb({{ sentence['color']['r'] }},{{ sentence['color']['g'] }},{{ sentence['color']['b'] }}); width:{% if sentence['sentiment']['score'] > 0 %}{{ sentence['sentiment']['score']*100 }}{% else %}{{ -sentence['sentiment']['score']*100 }}{% endif %}%;"><span>.</span></div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
     </div>
 
-  </div>
-{% else %}
-  <h1>Hello, World!</h1>
-{% endif %}
+    </div>
+  {% else %}
+    <h1>Hello, World!</h1>
+  {% endif %}
+{% endblock %}

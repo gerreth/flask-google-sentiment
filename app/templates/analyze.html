@@ -1,0 +1,228 @@
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+  {{ super() }}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style>
+    #formWrapper {
+      background: rgb(255,255,255);
+      box-shadow: 1px 1px 7px 0 rgba(0,0,0,.025);
+      margin: 0 0 40px 0;
+      padding: 20px 40px;
+    }
+
+    #formWrapper textarea {
+      border: 1px solid #EEEEEE;
+      box-sizing: border-box;
+      display: block;
+      font-size: 14px;
+      overflow: hidden;
+      padding: 20px;
+      resize: none;
+      height: 200px;
+      width: 100%;
+    }
+
+    #formWrapper button {
+      background: rgb(48,189,57);
+      border: solid rgb(245,245,245) 1px;
+      color: rgb(255,255,255);
+      cursor: pointer;
+      font-size: .8em;
+      font-weight: 600;
+      -webkit-appearance: none;
+      width: 25%;
+      padding: 7px 0;
+      margin: 20px 0 0 0;
+      line-height: 20px;
+      border-radius: 22px;
+    }
+
+    #formWrapper button span {
+      padding: 0 10px 0 15px;
+    }
+
+    #formWrapper button .fa-spinner {
+      visibility: hidden;
+    }
+
+    #formWrapper button.clicked {
+      background: rgb(189,48,57);
+    }
+
+    #formWrapper button.clicked .fa-spinner {
+      visibility: visible;
+    }
+
+    #responses {
+      line-height: 1.25;
+    }
+
+    .sentences, .document {
+      background: rgb(255,255,255);
+      box-shadow: 1px 1px 7px 0 rgba(0,0,0,.025);
+      margin: 0 0 40px 0;
+      padding: 20px 40px;
+    }
+
+    .sentiment {
+      margin: 0 0 5px 0;
+    }
+
+    .hover {
+      /* color: rgb(189,48,57) !important; */
+      color: rgb(25,25,25) !important;
+      /* font-weight: 600 !important; */
+    }
+
+    /* atoms */
+    .textWrapper {
+
+    }
+
+    .out {
+      color: rgb(200,200,200);
+    }
+
+    .out a {
+      color: rgb(200,200,200);
+    }
+
+    /* molecules */
+    .sentimentBar {
+      background: rgb(245,245,245);
+      border-radius: 3px;
+      height: 6px;
+      margin: 6px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sentimentBar span {
+      border-radius: 3px;
+      display: inline-block;
+      height: 6px;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .sentenceSentiment {
+      display: flex;
+    }
+
+    /* full text */
+    .document .sentimentBar {
+      width: 100%;
+    }
+
+    .documentSentence {
+
+    }
+
+    .labelWrapper {
+      margin-top: 10px;
+    }
+
+    .labelWrapper span {
+      background: rgb(245,245,245);
+      border-radius: 12px;
+      color: rgb(50,50,50);
+      cursor: pointer;
+      display: inline-block;
+      font-size: .8em;
+      font-weight: 600;
+      line-height: 18px;
+      padding: 3px 15px;
+    }
+
+    /* per sentence */
+    .sentence {
+      margin: 0 0 15px 0;
+    }
+
+    .sentence .sentimentBar {
+      width: 50%;
+    }
+
+  </style>
+{% endblock %}
+{% block content %}
+  {% include 'components/form.html' %}
+  {% if method == 'POST' %}
+    {% if not responses == None %}
+      <div id="responses">
+        {% for response in responses %}
+          <div class="response">
+            <div class="document">
+              <div class="heading">
+                <h3>Beitrags Analyse</h3>
+              </div>
+              <div class="sentiment">
+                <div class="sentimentBar">
+                  <span data-width="{{ response['documentSentiment']['score']|abs * 100 }}" style="background-color: rgb({{ response['color']['r'] }},{{ response['color']['g'] }},{{ response['color']['b'] }}); width: 0%;"></span>
+                </div>
+              </div>
+              <div class="textWrapper">
+                {% for sentence in response['sentences'] %}
+                  <span class="text">{{ sentence['text']['content']|safe }}</span>
+                {% endfor %}
+              </div>
+              <div class="labelWrapper">
+                {% for type in types %}
+                  <span class="label">{{ type }}</span>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="sentences">
+              <div class="heading">
+                <h3>Satz Analyse</h3>
+              </div>
+              {% for sentence in response['sentences'] %}
+                <div class="sentence">
+                  <div class="sentiment">
+                    <div class="sentimentBar">
+                      <span data-width="{{ sentence['sentiment']['score']|abs * 100 }}" style="background-color: rgb({{ sentence['color']['r'] }},{{ sentence['color']['g'] }},{{ sentence['color']['b'] }}); width: 0%;"></span>
+                    </div>
+                  </div>
+                  <div class="textWrapper">
+                    <span class="text">{{ sentence['text']['content']|safe }}</span>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <h1>Hello, World!</h1>
+    {% endif %}
+  {% endif %}
+  <script>
+    $('#formWrapper button').on('click', function(e){
+      $(this).addClass('clicked');
+    });
+
+    $('.sentimentBar span').each(function(){
+      $(this).animate({
+        'width': $(this).data('width') + '%'
+      },{
+        duration: 500,
+        specialEasing: {
+          width: "swing"
+        }
+      });
+    });
+
+    $('.label').on('mouseenter', function(){
+      var label = $(this).html();
+      $('.' + label).addClass('hover');
+      $('.text').addClass('out');
+    }).on('mouseleave', function(){
+      var label = $(this).html();
+      $('.' + label).removeClass('hover');
+      $('.text').removeClass('out');
+    });
+  </script>
+  <script defer src="/static/fontawesome//svg-with-js/js/fontawesome-all.js"></script>
+{% endblock %}
