@@ -6,7 +6,8 @@ from controllers \
         (IndexController,
         SentimentController,
         EntityController,
-        AnalyzeController)
+        AnalyzeController,
+        SendController)
 
 app = Flask(__name__)
 
@@ -28,6 +29,12 @@ def analyze():
     s = AnalyzeController()
     entities, types, sentiments = s.index()
     return render_template('analyze.html', responses=sentiments, entities=entities, types=types, method=request.method)
+
+@app.route('/sending', methods = ['GET','POST'])
+def sending():
+    s = SendController()
+    s.index()
+    return render_template('sending.html')
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0')

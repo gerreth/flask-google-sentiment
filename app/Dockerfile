@@ -9,6 +9,7 @@ RUN pip3 install Flask
 RUN pip3 install --upgrade google-api-python-client
 RUN pip3 install --upgrade redis
 RUN pip3 install --upgrade mysqlclient
+RUN pip3 install --upgrade google-cloud-pubsub
 
 COPY . .
 
