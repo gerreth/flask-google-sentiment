@@ -2,3 +2,4 @@ from controllers.IndexController import IndexController
 from controllers.SentimentController import SentimentController
 from controllers.EntityController import EntityController
 from controllers.AnalyzeController import AnalyzeController
+from controllers.SendController import SendController

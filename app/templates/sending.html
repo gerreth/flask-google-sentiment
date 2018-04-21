@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles/index.css') }}">
+{% endblock %}
+{% block content %}
+  <h1>Sending...</h1>
+{% endblock %}

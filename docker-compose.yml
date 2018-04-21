@@ -14,6 +14,7 @@ services:
       MYSQL_DB: "entries"
       REDIS_HOST: "redis"
       REDIS_DB: "0"
+      GOOGLE_APPLICATION_CREDENTIALS: "/usr/src/app/key.json"
     ports:
       - "5000:5000"
     restart: always
