@@ -2,4 +2,4 @@
 .env
 redis/
 mysql/
-app/static/fontawesome
+app/static/fontawesome2
