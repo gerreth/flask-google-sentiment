@@ -1,3 +1,8 @@
+html, body {
+  height: 100%;
+  overflow: scroll;
+}
+
 body {
   background-attachment: fixed;
   background-image: url('../images/pattern.png');
@@ -23,7 +28,7 @@ a {
 }
 
 .siteWrapper {
-  margin: 100px auto 40px auto;
+  margin: 100px auto;
   width: 800px;
 }
 
@@ -63,11 +68,13 @@ a {
 #footer {
   align-items: center;
   background: rgb(255,255,255);
+  bottom: 0;
   box-shadow: -1px -1px 7px 0 rgba(0,0,0,.025);
   display: flex;
   height: 30px;
   justify-content: flex-end;
   padding: 30px 20px;
+  position: absolute;
   text-align: right;
   width: 100%;
 }
